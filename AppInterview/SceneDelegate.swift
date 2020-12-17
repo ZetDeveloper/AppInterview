@@ -15,40 +15,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-      saveContext()
+     
     }
 
-    // MARK: - Core Data stack
 
-    lazy var persistentContainer: NSPersistentContainer = {
-      let container = NSPersistentContainer(name: "DbContext")
-      container.loadPersistentStores { _, error in
-        if let error = error as NSError? {
-          // You should add your own error handling code here.
-          fatalError("Unresolved error \(error), \(error.userInfo)")
-        }
-      }
-      return container
-    }()
-
-    // MARK: - Core Data Saving support
-
-    func saveContext() {
-      let context = persistentContainer.viewContext
-      if context.hasChanges {
-        do {
-          try context.save()
-        } catch {
-          // The context couldn't be saved.
-          // You should add your own error handling here.
-          let nserror = error as NSError
-          fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
-      }
-    }
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        let context = persistentContainer.viewContext
-        let contentView = ContentView().environment(\.managedObjectContext, context)
+        let contentView = ContentView()
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

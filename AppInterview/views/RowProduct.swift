@@ -12,6 +12,7 @@ struct RowProduct: View {
     @State var name = ""
     @State var price = ""
     @State var url = ""
+    @State var rating = ""
     var body: some View {
         HStack {
             VStack(spacing: 0){
@@ -42,7 +43,7 @@ struct RowProduct: View {
                         .fontWeight(.black)
                         .foregroundColor(.primary)
                         .lineLimit(2)
-                    Text("Rating".uppercased())
+                    Text("Rating".uppercased() + "\(rating)")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }

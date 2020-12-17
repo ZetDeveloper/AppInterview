@@ -8,18 +8,44 @@
 import Foundation
 import Combine
 import SwiftUI
+import CoreData
 
 class ProductsInteractor: ObservableObject {
-    @Environment(\.managedObjectContext) var managedObjectContext
+    @Published var search = "" {
+        willSet {
+            self.getProduct(query: search)
+        }
+    }
     @Published var list:[ProductItem] = []
     var cancellables = Set<AnyCancellable>()
     let repo = ProductRepository()
     
     func saveProducts(list: [ProductItem]) {
-        DbRepository().insertProducts(context: managedObjectContext, list: list)
+        DbRepository()
+            .insertProducts(list: list)
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { completion in
+            debugPrint(completion)
+        }, receiveValue: { value in
+            debugPrint(value)
+            
+        }).store(in: &cancellables)
     }
     
-    func getProduct(query: String){
+    func getData(query: String) {
+        DbRepository()
+            .getProducts(query: query)
+            .receive(on: RunLoop.main)
+        .sink(receiveCompletion: { completion in
+            debugPrint(completion)
+        }, receiveValue: { value in
+            
+            self.list = value
+        }).store(in: &cancellables)
+    }
+    
+    func getProduct(query: String) {
+        self.getData(query: self.search)
         repo.getProducts(query: query)
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { completion in
@@ -28,7 +54,6 @@ class ProductsInteractor: ObservableObject {
                 
                 self.saveProducts(list: value.items)
                 
-                self.list = value.items
             }).store(in: &cancellables)
         
     }

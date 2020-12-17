@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-import CoreData
+import RealmSwift
 
 
 protocol IProductQuery {
@@ -16,9 +16,13 @@ protocol IProductQuery {
 
 protocol IApiClient: IProductQuery {}
 
-protocol IProductRepository : IProductQuery {}
+protocol IProductRepository: IProductQuery {}
+protocol IDbRepository {
+    func getProducts(query: String) -> Future<[ProductItem], Never>
+    func insertProducts(list: [ProductItem])-> Future<Bool, Never>
+}
 
-class ProductRepository: IProductRepository {
+class ProductRepository: IProductRepository {
     
     func getProducts(query: String) -> Future<ProductsResponse, Never>  {
         return client.getProducts(query: query)
@@ -31,28 +35,45 @@ class ProductRepository: IProductRepository {
     
 }
 
-class DbRepository {
-    func insertProducts(context: NSManagedObjectContext, list: [ProductItem])-> Future<Bool, Never>{
+class DbRepository: IDbRepository {
+    
+    let realm = try! Realm()
+    func getProducts(query: String)-> Future<[ProductItem], Never> {
+        return Future<[ProductItem], Never> { promise in
+            if query.isEmpty {
+                promise(.success(self.realm.objects(ProductDb.self)
+                                    .map{$0.toClass()}))
+            }
+            else {
+                let predicate = NSPredicate(format: "search BEGINSWITH %@", query)
+                let containsResults = self.realm.objects(ProductDb.self)
+                    .filter(predicate)
+                promise(.success(containsResults.map{ $0.toClass() }))
+            }
+        }
+    }
+    
+    func insertProducts(list: [ProductItem])-> Future<Bool, Never>{
         return Future { promise in
             for i in list {
-                guard let entity = NSEntityDescription.entity(forEntityName: "ProductDb", in: context) else { return  }
+                let objectsToDelete = self.realm.objects(ProductDb.self).filter("id == %@", i.id)
+  
+                let product = ProductDb()
+                product.id = i.id
+                product.title = i.title
+                product.image = i.image
+                product.price = i.price
+                product.rating = i.rating ?? 0
+                product.search = i.title.lowercased()
                 
-                let record = NSManagedObject(entity: entity, insertInto: context)
-                
-                record.setValue(i.rating, forKey: "rating")
-                record.setValue(i.image, forKey: "url")
-                record.setValue(i.id, forKey: "id")
-                record.setValue(i.title, forKey: "name")
-                do {
-                    try context.save()
-                    
-                } catch
-                    let error as NSError {
-                    
+                try! self.realm.write {
+                    self.realm.delete(objectsToDelete)
+                    self.realm.add(product)
                 }
+                
             }
-            
             promise(.success(true))
+            
         }
         
     }

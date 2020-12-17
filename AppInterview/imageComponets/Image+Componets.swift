@@ -1,8 +1,8 @@
 //
-//  ContentView.swift
+//  Image+Componets.swift
 //  AppInterview
 //
-//  Created by Jiren on 16/12/20.
+//  Created by Jiren on 17/12/20.
 //
 
 import SwiftUI
@@ -118,42 +118,5 @@ class ImageLoader: ObservableObject {
     
     private func cache(_ image: UIImage?) {
         image.map { cache?[url] = $0 }
-    }
-}
-
-struct ContentView: View {
-    @State var search = ""
-    @ObservedObject var interactor = ProductsInteractor()
-    @Environment(\.managedObjectContext) var managedObjectContext
-    
-    var body: some View {
-        VStack {
-            SearchBar(text: self.$search, placeholder: "Search...")
-            ScrollView {
-                ForEach(self.interactor.list, id: \.id) { product in
-                    RowProduct(name: product.title, price: product.price.toMoney(), url: product.image)
-                }
-            }
-           
-            
-            Spacer()
-        }
-        .onTapGesture {
-            endEditing()
-        }
-        .onAppear{
-            interactor.getProduct(query: search)
-        }
-       
-    }
-    
-    private func endEditing() {
-            UIApplication.shared.endEditing()
-        }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }
