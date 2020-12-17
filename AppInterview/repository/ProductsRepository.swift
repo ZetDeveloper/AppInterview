@@ -40,16 +40,29 @@ class DbRepository: IDbRepository {
     let realm = try! Realm()
     func getProducts(query: String)-> Future<[ProductItem], Never> {
         return Future<[ProductItem], Never> { promise in
+            var queryRealm: LazyMapSequence<Results<ProductDb>, ProductItem>? = nil
+            var array:[ProductItem] = []
             if query.isEmpty {
-                promise(.success(self.realm.objects(ProductDb.self)
-                                    .map{$0.toClass()}))
+                queryRealm = self.realm.objects(ProductDb.self)
+                    .map{$0.toClass()}
+               
             }
             else {
                 let predicate = NSPredicate(format: "search BEGINSWITH %@", query)
                 let containsResults = self.realm.objects(ProductDb.self)
                     .filter(predicate)
-                promise(.success(containsResults.map{ $0.toClass() }))
+                    .map{$0.toClass()}
+                queryRealm = containsResults
             }
+            
+          
+            for i in 0..<((queryRealm?.count ?? 0) > 20 ? 20 : (queryRealm?.count ?? 0)) {
+                if let row = queryRealm?[i] {
+                    array.append(row)
+                }
+            }
+            
+            promise(.success(array))
         }
     }
     
