@@ -1,5 +1,7 @@
 # AppInterview
 
+Offfline first
+
 Instrucciones
 -run: pod install
 
