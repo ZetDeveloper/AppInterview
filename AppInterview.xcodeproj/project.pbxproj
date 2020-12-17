@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		9E6567B5258B1497007385EF /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6567B4258B1497007385EF /* Utils.swift */; };
 		9E6567BB258B177B007385EF /* ProductsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6567BA258B177B007385EF /* ProductsRepository.swift */; };
+		9E6567C1258B1813007385EF /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6567C0258B1813007385EF /* Products.swift */; };
+		9E6567CA258B2216007385EF /* ProductsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6567C9258B2216007385EF /* ProductsInteractor.swift */; };
+		9E6F9207258B2F6300F45ED0 /* DbContext.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F9205258B2F6300F45ED0 /* DbContext.xcdatamodeld */; };
+		9E6F9241258B3C1500F45ED0 /* ProductDb+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F923F258B3C1500F45ED0 /* ProductDb+CoreDataClass.swift */; };
+		9E6F9242258B3C1500F45ED0 /* ProductDb+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F9240258B3C1500F45ED0 /* ProductDb+CoreDataProperties.swift */; };
 		9E7CC532258B068F00BEC0C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7CC531258B068F00BEC0C5 /* AppDelegate.swift */; };
 		9E7CC534258B068F00BEC0C5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7CC533258B068F00BEC0C5 /* SceneDelegate.swift */; };
 		9E7CC536258B068F00BEC0C5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7CC535258B068F00BEC0C5 /* ContentView.swift */; };
@@ -41,6 +46,11 @@
 /* Begin PBXFileReference section */
 		9E6567B4258B1497007385EF /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		9E6567BA258B177B007385EF /* ProductsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsRepository.swift; sourceTree = "<group>"; };
+		9E6567C0258B1813007385EF /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
+		9E6567C9258B2216007385EF /* ProductsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsInteractor.swift; sourceTree = "<group>"; };
+		9E6F9206258B2F6300F45ED0 /* DbContext.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DbContext.xcdatamodel; sourceTree = "<group>"; };
+		9E6F923F258B3C1500F45ED0 /* ProductDb+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductDb+CoreDataClass.swift"; sourceTree = "<group>"; };
+		9E6F9240258B3C1500F45ED0 /* ProductDb+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProductDb+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9E7CC52E258B068F00BEC0C5 /* AppInterview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppInterview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E7CC531258B068F00BEC0C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E7CC533258B068F00BEC0C5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,9 +102,27 @@
 			path = repository;
 			sourceTree = "<group>";
 		};
+		9E6567BF258B1809007385EF /* models */ = {
+			isa = PBXGroup;
+			children = (
+				9E6567C0258B1813007385EF /* Products.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		9E6567C8258B2203007385EF /* interactors */ = {
+			isa = PBXGroup;
+			children = (
+				9E6567C9258B2216007385EF /* ProductsInteractor.swift */,
+			);
+			path = interactors;
+			sourceTree = "<group>";
+		};
 		9E7CC525258B068F00BEC0C5 = {
 			isa = PBXGroup;
 			children = (
+				9E6F923F258B3C1500F45ED0 /* ProductDb+CoreDataClass.swift */,
+				9E6F9240258B3C1500F45ED0 /* ProductDb+CoreDataProperties.swift */,
 				9E7CC530258B068F00BEC0C5 /* AppInterview */,
 				9E7CC547258B069500BEC0C5 /* AppInterviewTests */,
 				9E7CC552258B069500BEC0C5 /* AppInterviewUITests */,
@@ -115,16 +143,19 @@
 		9E7CC530258B068F00BEC0C5 /* AppInterview */ = {
 			isa = PBXGroup;
 			children = (
+				9E6F9205258B2F6300F45ED0 /* DbContext.xcdatamodeld */,
+				9E6567C8258B2203007385EF /* interactors */,
+				9E6567BF258B1809007385EF /* models */,
 				9E6567B9258B1758007385EF /* repository */,
 				9E7CC56A258B0C8100BEC0C5 /* views */,
 				9E7CC531258B068F00BEC0C5 /* AppDelegate.swift */,
 				9E7CC533258B068F00BEC0C5 /* SceneDelegate.swift */,
 				9E7CC535258B068F00BEC0C5 /* ContentView.swift */,
+				9E6567B4258B1497007385EF /* Utils.swift */,
 				9E7CC537258B069400BEC0C5 /* Assets.xcassets */,
 				9E7CC53C258B069400BEC0C5 /* LaunchScreen.storyboard */,
 				9E7CC53F258B069400BEC0C5 /* Info.plist */,
 				9E7CC539258B069400BEC0C5 /* Preview Content */,
-				9E6567B4258B1497007385EF /* Utils.swift */,
 			);
 			path = AppInterview;
 			sourceTree = "<group>";
@@ -297,8 +328,13 @@
 				9E7CC571258B0E2200BEC0C5 /* RowProduct.swift in Sources */,
 				9E7CC532258B068F00BEC0C5 /* AppDelegate.swift in Sources */,
 				9E6567BB258B177B007385EF /* ProductsRepository.swift in Sources */,
+				9E6F9241258B3C1500F45ED0 /* ProductDb+CoreDataClass.swift in Sources */,
+				9E6567CA258B2216007385EF /* ProductsInteractor.swift in Sources */,
 				9E7CC56C258B0C9900BEC0C5 /* SearchBar.swift in Sources */,
+				9E6F9207258B2F6300F45ED0 /* DbContext.xcdatamodeld in Sources */,
+				9E6F9242258B3C1500F45ED0 /* ProductDb+CoreDataProperties.swift in Sources */,
 				9E7CC534258B068F00BEC0C5 /* SceneDelegate.swift in Sources */,
+				9E6567C1258B1813007385EF /* Products.swift in Sources */,
 				9E7CC536258B068F00BEC0C5 /* ContentView.swift in Sources */,
 				9E6567B5258B1497007385EF /* Utils.swift in Sources */,
 			);
@@ -635,6 +671,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9E6F9205258B2F6300F45ED0 /* DbContext.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9E6F9206258B2F6300F45ED0 /* DbContext.xcdatamodel */,
+			);
+			currentVersion = 9E6F9206258B2F6300F45ED0 /* DbContext.xcdatamodel */;
+			path = DbContext.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9E7CC526258B068F00BEC0C5 /* Project object */;
 }
