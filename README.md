@@ -1,4 +1,4 @@
-# AppInterview
+# MiniClean
 
 Offfline first
 
